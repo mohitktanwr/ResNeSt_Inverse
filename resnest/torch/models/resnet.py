@@ -92,8 +92,8 @@ class Bottleneck(nn.Module):
             self.bn2 = norm_layer(group_width)
 
         self.conv3 = nn.Conv2d(
-            group_width, planes , kernel_size=1, bias=False) #planes*4
-        self.bn3 = norm_layer(planes) #planes*4
+            group_width, 5 , kernel_size=1, bias=False) #planes*4
+        self.bn3 = norm_layer(5) #planes*4
 
         if last_gamma:
             from torch.nn.init import zeros_
