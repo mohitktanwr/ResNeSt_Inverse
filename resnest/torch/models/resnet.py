@@ -201,11 +201,11 @@ class ResNet(nn.Module):
                 conv_layer(stem_width, stem_width*2, kernel_size=3, stride=1, padding=1, bias=False, **conv_kwargs),
             )
         else:
-            self.conv1 = conv_layer(3, 64, kernel_size=7, stride=1, padding=3, #stride = 2
+            self.conv1 = conv_layer(3, 64, kernel_size=3, stride=1, padding=1, #stride = 2, kernel = 7 paddinf = 3
                                    bias=False, **conv_kwargs)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
-        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=1, padding=1) #stride = 2
         self.layer1 = self._make_layer(block, 64, layers[0], norm_layer=norm_layer, is_first=False)
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2, norm_layer=norm_layer)
         if dilated or dilation == 4:
