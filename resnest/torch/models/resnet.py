@@ -42,7 +42,7 @@ class Bottleneck(nn.Module):
     """ResNet Bottleneck
     """
     # pylint: disable=unused-argument
-    expansion = 1 #4
+    expansion = 4 #4
     def __init__(self, inplanes, planes, stride=1, downsample=None,
                  radix=1, cardinality=1, bottleneck_width=64,
                  avd=False, avd_first=False, dilation=1, is_first=False,
