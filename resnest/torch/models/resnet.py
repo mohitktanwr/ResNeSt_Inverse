@@ -42,7 +42,7 @@ class Bottleneck(nn.Module):
     """ResNet Bottleneck
     """
     # pylint: disable=unused-argument
-    expansion = 4
+    expansion = 1 #4
     def __init__(self, inplanes, planes, stride=1, downsample=None,
                  radix=1, cardinality=1, bottleneck_width=64,
                  avd=False, avd_first=False, dilation=1, is_first=False,
@@ -92,8 +92,8 @@ class Bottleneck(nn.Module):
             self.bn2 = norm_layer(group_width)
 
         self.conv3 = nn.Conv2d(
-            group_width, 5 , kernel_size=1, bias=False) #planes*4
-        self.bn3 = norm_layer(5) #planes*4
+            group_width, planes*4 , kernel_size=1, bias=False) #planes*4
+        self.bn3 = norm_layer(planes*4) #planes*4
 
         if last_gamma:
             from torch.nn.init import zeros_
