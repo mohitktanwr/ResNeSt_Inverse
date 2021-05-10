@@ -253,12 +253,12 @@ class ResNet(nn.Module):
                 else:
                     down_layers.append(nn.AvgPool2d(kernel_size=1, stride=1,
                                                     ceil_mode=True, count_include_pad=False))
-                down_layers.append(nn.Conv2d(self.inplanes, planes * block.expansion,
+                down_layers.append(nn.Conv2d(self.inplanes, planes * 4, #planes * block.expansion
                                              kernel_size=1, stride=1, bias=False))
             else:
-                down_layers.append(nn.Conv2d(self.inplanes, planes * block.expansion,
+                down_layers.append(nn.Conv2d(self.inplanes, planes * 4, #planes * block.expansion
                                              kernel_size=1, stride=stride, bias=False))
-            down_layers.append(norm_layer(planes * block.expansion))
+            down_layers.append(norm_layer(planes * 4))#planes * block.expansion
             downsample = nn.Sequential(*down_layers)
 
         layers = []
