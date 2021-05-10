@@ -88,7 +88,7 @@ def resnest50_fast_2s2x40d(pretrained=False, root='~/.encoding/models', **kwargs
 def resnest50_fast_4s2x40d(pretrained=False, root='~/.encoding/models', **kwargs):
     model = ResNet(Bottleneck, [3, 4, 6, 3],
                    radix=4, groups=2, bottleneck_width=40,
-                   deep_stem=True, stem_width=32, avg_down=True,
+                   deep_stem=False, stem_width=32, avg_down=True, #deep_stem=True
                    avd=True, avd_first=True, **kwargs)
     if pretrained:
         model.load_state_dict(torch.hub.load_state_dict_from_url(
