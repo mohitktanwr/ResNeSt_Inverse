@@ -50,7 +50,7 @@ class Bottleneck(nn.Module):
                  norm_layer=None, dropblock_prob=0.0, last_gamma=False):
         super(Bottleneck, self).__init__()
         group_width = int(planes * (bottleneck_width / 64.)) * cardinality
-        self.conv1 = nn.Conv2d(inplanes, group_width, kernel_size=1, bias=False)
+        self.conv1 = nn.Conv2d(inplanes * 4, group_width, kernel_size=1, bias=False) # inplanes *1
         self.bn1 = norm_layer(group_width)
         self.dropblock_prob = dropblock_prob
         self.radix = radix
