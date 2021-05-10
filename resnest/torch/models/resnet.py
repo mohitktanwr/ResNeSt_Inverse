@@ -42,7 +42,7 @@ class Bottleneck(nn.Module):
     """ResNet Bottleneck
     """
     # pylint: disable=unused-argument
-    expansion = 4 #4
+    expansion = 1 #4
     def __init__(self, inplanes, planes, stride=1, downsample=None,
                  radix=1, cardinality=1, bottleneck_width=64,
                  avd=False, avd_first=False, dilation=1, is_first=False,
@@ -201,13 +201,13 @@ class ResNet(nn.Module):
                 conv_layer(stem_width, stem_width*2, kernel_size=3, stride=1, padding=1, bias=False, **conv_kwargs),
             )
         else:
-            self.conv1 = conv_layer(3, 64, kernel_size=7, stride=2, padding=3, #stride = 2, kernel = 7 paddinf = 3
+            self.conv1 = conv_layer(3, 1024, kernel_size=7, stride=2, padding=3, #stride = 2, kernel = 7 paddinf = 3
                                    bias=False, **conv_kwargs)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=1, padding=1) #stride = 2
-        self.layer1 = self._make_layer(block, 64, layers[0], norm_layer=norm_layer, is_first=False)
-        self.layer2 = self._make_layer(block, 128, layers[1], stride=2, norm_layer=norm_layer)
+        self.layer1 = self._make_layer(block, 512, layers[0], norm_layer=norm_layer, is_first=False)
+        self.layer2 = self._make_layer(block, 256, layers[1], stride=2, norm_layer=norm_layer)
         if dilated or dilation == 4:
             self.layer3 = self._make_layer(block, 256, layers[2], stride=1,
                                            dilation=2, norm_layer=norm_layer,
@@ -223,10 +223,10 @@ class ResNet(nn.Module):
                                            dilation=2, norm_layer=norm_layer,
                                            dropblock_prob=dropblock_prob)
         else:
-            self.layer3 = self._make_layer(block, 256, layers[2], stride=2,
+            self.layer3 = self._make_layer(block, 128, layers[2], stride=2,
                                            norm_layer=norm_layer,
                                            dropblock_prob=dropblock_prob)
-            self.layer4 = self._make_layer(block, 512, layers[3], stride=2,
+            self.layer4 = self._make_layer(block, 64, layers[3], stride=2,
                                            norm_layer=norm_layer,
                                            dropblock_prob=dropblock_prob)
         self.avgpool = GlobalAvgPool2d()
