@@ -42,7 +42,7 @@ class Bottleneck(nn.Module):
     """ResNet Bottleneck
     """
     # pylint: disable=unused-argument
-    expansion = 1 #4
+    expansion = 4 #4
     def __init__(self, inplanes, planes, stride=1, downsample=None,
                  radix=1, cardinality=1, bottleneck_width=64,
                  avd=False, avd_first=False, dilation=1, is_first=False,
@@ -92,8 +92,8 @@ class Bottleneck(nn.Module):
             self.bn2 = norm_layer(group_width)
 
         self.conv3 = nn.Conv2d(
-            group_width, planes , kernel_size=1, bias=False) #planes*4
-        self.bn3 = norm_layer(planes) #planes*4
+            group_width, planes*4 , kernel_size=1, bias=False) #planes*4
+        self.bn3 = norm_layer(planes*4) #planes*4
 
         if last_gamma:
             from torch.nn.init import zeros_
@@ -192,7 +192,7 @@ class ResNet(nn.Module):
         conv_kwargs = {'average_mode': rectify_avg} if rectified_conv else {}
         if deep_stem:
             self.conv1 = nn.Sequential(
-                conv_layer(3, stem_width, kernel_size=3, stride=1, padding=1, bias=False, **conv_kwargs), #stride = 2
+                conv_layer(3, stem_width, kernel_size=3, stride=2, padding=1, bias=False, **conv_kwargs), #stride = 2
                 norm_layer(stem_width),
                 nn.ReLU(inplace=True),
                 conv_layer(stem_width, stem_width, kernel_size=3, stride=1, padding=1, bias=False, **conv_kwargs),
@@ -201,7 +201,7 @@ class ResNet(nn.Module):
                 conv_layer(stem_width, stem_width*2, kernel_size=3, stride=1, padding=1, bias=False, **conv_kwargs),
             )
         else:
-            self.conv1 = conv_layer(3, 64, kernel_size=3, stride=1, padding=1, #stride = 2, kernel = 7 paddinf = 3
+            self.conv1 = conv_layer(3, 64, kernel_size=7, stride=2, padding=3, #stride = 2, kernel = 7 paddinf = 3
                                    bias=False, **conv_kwargs)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
